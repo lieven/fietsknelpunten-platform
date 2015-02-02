@@ -11,7 +11,7 @@ return array(
     'HomeController' => $baseDir . '/app/controllers/HomeController.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
     'IssuesController' => $baseDir . '/app/controllers/api/v1/IssuesController.php',
-    'LabelsController' => $baseDir . '/app/controllers/LabelsController.php',
+    'LabelsController' => $baseDir . '/app/controllers/api/v1/LabelsController.php',
     'ReportController' => $baseDir . '/app/controllers/ReportController.php',
     'SessionHandlerInterface' => $vendorDir . '/symfony/http-foundation/Symfony/Component/HttpFoundation/Resources/stubs/SessionHandlerInterface.php',
     'TestCase' => $baseDir . '/app/tests/TestCase.php',
