@@ -14,5 +14,3 @@
 Route::get('/', 'HomeController@showWelcome');
 
 Route::get('/report', 'ReportController@showReport');
-
-Route::post('/report', 'ReportController@doReport');

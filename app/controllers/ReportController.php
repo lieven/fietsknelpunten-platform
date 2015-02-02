@@ -10,11 +10,4 @@ class ReportController extends BaseController
 	{
 		return View::make('report/report');
 	}
-
-	/**
-	 * Post to server
-	 */
-	public function doReport()
-	{
-	}
 }
