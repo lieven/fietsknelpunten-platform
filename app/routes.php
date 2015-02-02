@@ -17,6 +17,7 @@ Route::get('/report', 'ReportController@showReport');
 
 Route::group(array('prefix' => 'api/v1'), function()
 {
+	Route::get('/labels/list', 'LabelsController@listAction');
 	Route::get('/issues/{issueId}', 'IssuesController@getAction');
 	Route::get('/issues/list', 'IssuesController@listAction');
 	Route::post('/issues/create', 'IssuesController@createAction');
