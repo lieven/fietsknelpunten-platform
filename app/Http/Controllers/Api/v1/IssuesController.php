@@ -5,12 +5,18 @@ class IssuesController extends Controller
 {
 	public function listAction()
 	{
+		$paging	= $this->getPaging();
+		$offset	= $paging['offset'];
+		$limit 	= $paging['limit'];
+
 		$issues = array(
 			array('id' => 1),
 			array('id' => 2)
 		);
 
-		return response()->json($issues);
+		$total = 233;
+
+		return $this->generateResponse($offset, $limit, $total, $issues, 'api-v1-issues-list');
 	}
 
 	public function createAction()
