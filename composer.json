@@ -22,7 +22,7 @@
 	"autoload-dev": {
 		"classmap": [
 			"app/Http/Controllers",
-			"app/Http/Controllers/api/v1",
+			"app/Http/Controllers/Api/v1",
 			"app/Models"
 		]
 	},
