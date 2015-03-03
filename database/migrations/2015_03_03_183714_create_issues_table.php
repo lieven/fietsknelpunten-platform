@@ -34,7 +34,7 @@ class CreateIssuesTable extends Migration {
 			
 			$table->enum('status', [ 'open', 'closed' ]);
 			
-			$table->string('ip_created', 100);
+			$table->string('ip_created');
 			
 			$table->timestamps(); // created_at, updated_at
 			
