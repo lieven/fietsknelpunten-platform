@@ -1,6 +1,26 @@
 {
   "devDependencies": {
-    "gulp": "^3.8.8",
-    "laravel-elixir": "*"
-  }
+    "gulp": "^3.8.11",
+    "gulp-cookbook": "git://github.com/klaascuvelier/gulp-cookbook.git"
+  },
+  "name": "fietsknelpunten-platform",
+  "description": "Backend voor Fietsknelpunten project.",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lieven/fietsknelpunten-platform.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lieven/fietsknelpunten-platform/issues"
+  },
+  "homepage": "https://github.com/lieven/fietsknelpunten-platform"
 }
