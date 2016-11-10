@@ -14,7 +14,7 @@ class SiteModule extends Module
 	
 	function indexAction()
 	{
-		$theView = new View('index', 'site');
+		$theView = new View('index', $this->name);
 		$theView->show();
 	}
 }
