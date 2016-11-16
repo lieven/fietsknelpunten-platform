@@ -77,7 +77,7 @@ class ApiModule extends AbstractApiModule
 				$tag('Wegdek: andere', 'Te specifiëren in beschrijving')
 			)),
 			$group('Signalisatie', array( 
-				$tag('Fietspad', 'Wegmarkeringen die het fietspad aanduiden ontbreken of zijn slecht zichtbaar'),
+				$tag('Wegmarkeringen', 'Wegmarkeringen die het fietspad aanduiden ontbreken of zijn slecht zichtbaar'),
 				$tag('Oversteekplaats', 'Wegmarkeringen die een fietsoversteekplaats aanduiden zijn slecht zichtbaar'),
 				$tag('Verkeersborden', 'Verkeersborden die het fietspad aanduiden ontbreken of zijn in slechte staat'),
 				$tag('Verkeerslicht', 'Een verkeerslicht is defect of niet correct afgesteld'),
