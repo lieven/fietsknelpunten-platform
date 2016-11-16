@@ -1,6 +1,6 @@
 <?php
 
-define('SITE_FOLDER', 'site');
+define('SITE_FOLDER', 'src');
 
 set_include_path(SITE_FOLDER);
 
