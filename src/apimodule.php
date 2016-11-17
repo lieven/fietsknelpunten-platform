@@ -1,10 +1,10 @@
 <?php
 
+
 class ApiModule extends AbstractApiModule
 {
 	private static $parameters = array
 	(
-		'list' => array(),
 		'tags' => array()
 	);
 	
@@ -27,17 +27,19 @@ class ApiModule extends AbstractApiModule
 	
 	protected function checkPermissions($inAction)
 	{
+		$appID = GetHeader('X-FIETSKNELPUNTEN-APPID');
+		if ($appID === NULL)
+		{
+			return false;
+		}
+		
+		$apps = GetConfig('fietsknelpunten', 'apps');
+		if (!isset($apps[$appID]))
+		{
+			return false;
+		}
+		
 		return true;
-	}
-	
-	function listAction()
-	{
-		$list = array(
-			'apples',
-			'oranges'
-		);
-	
-		$this->outputJson($list);
 	}
 	
 	// temporary function until tags are available in database
