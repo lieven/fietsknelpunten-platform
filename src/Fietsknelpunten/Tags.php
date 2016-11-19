@@ -19,9 +19,6 @@ const TAG_GROUPS_COLUMN_NAME = 'name';
 
 class Tags
 {
-	private static $table = TAGS_TABLE;
-	private static $idColumn = TAGS_COLUMN_ID;
-	
 	public static function CreateTables(Database & $db)
 	{
 		$tagsTable = TAGS_TABLE;
