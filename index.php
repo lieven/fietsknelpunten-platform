@@ -1,6 +1,6 @@
 <?php
 
-define('CONFIG_FILE', '../fietsknelpunten-platform-config.php');
+define('Base\CONFIG_FILE', '../fietsknelpunten-config.php');
 
 
 require_once('src/Base/run.php');

@@ -1,7 +1,9 @@
 <?php
 
+use Base\Config;
 
-class ApiModule extends AbstractApiModule
+
+class ApiModule extends Base\ApiModule
 {
 	private static $parameters = array
 	(
@@ -27,13 +29,13 @@ class ApiModule extends AbstractApiModule
 	
 	protected function checkPermissions($inAction)
 	{
-		$appID = GetHeader('X-FIETSKNELPUNTEN-APPID');
+		$appID = Base\GetHeader('X-FIETSKNELPUNTEN-APPID');
 		if ($appID === NULL)
 		{
 			return false;
 		}
 		
-		$apps = GetConfig('fietsknelpunten', 'apps');
+		$apps = Config::Get('fietsknelpunten', 'apps');
 		if (!isset($apps[$appID]))
 		{
 			return false;
@@ -84,7 +86,7 @@ class ApiModule extends AbstractApiModule
 				$tag('Verkeersborden', 'Verkeersborden die het fietspad aanduiden ontbreken of zijn in slechte staat'),
 				$tag('Verkeerslicht', 'Een verkeerslicht is defect of niet correct afgesteld'),
 				$tag('Onduidelijk', 'De gebruikte signalisatie is niet reglementair of de voorrangssituatie is onduidelijk'),
-				$tag('Signalisatie: andere')
+				$tag('Signalisatie: andere', 'Te specifiëren in beschrijving')
 			)),
 		);
 		
