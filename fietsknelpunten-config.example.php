@@ -2,7 +2,7 @@
 
 // Copy this file to a readable but safe path, edit it and update the CONFIG_FILE define in index.php
 
-\Base\Config::Register
+Base\Config::Register
 (
 	array
 	(
@@ -27,6 +27,13 @@
 			'apps' => array
 			(
 				'appID' => 'appKey'
+			),
+			'bbox' => array
+			(
+				'minLat' => 49.45,
+				'maxLat' => 51.57,
+				'minLon' => 2.45,
+				'maxLon' => 6.45
 			)
 		)
 	)
