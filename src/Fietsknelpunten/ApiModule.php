@@ -3,13 +3,15 @@
 namespace Fietsknelpunten;
 
 use Base\Config;
+use Base\Database;
+use Base\GetHeader;
 
 
 class ApiModule extends \Base\ApiModule
 {
 	private static $parameters = array
 	(
-		'tags' => array()
+		'tags' => array(),
 	);
 	
 	function __construct()
@@ -31,7 +33,7 @@ class ApiModule extends \Base\ApiModule
 	
 	protected function checkPermissions($inAction)
 	{
-		$appID = \Base\GetHeader('X-FIETSKNELPUNTEN-APPID');
+		$appID = GetHeader('X-FIETSKNELPUNTEN-APPID');
 		if ($appID === NULL)
 		{
 			return false;
@@ -43,62 +45,15 @@ class ApiModule extends \Base\ApiModule
 			return false;
 		}
 		
+		// TODO: actual permission checks
+		
 		return true;
-	}
-	
-	// temporary function until tags are available in database
-	private function tags()
-	{
-		$groupID = 1;
-		$tagID = 1;
-		
-		$group = function($name, $tagsArray) use(&$groupID)
-		{
-			return array
-			(
-				'id' => $groupID++,
-				'name' => $name,
-				'tags' => $tagsArray
-			);
-		};
-		
-		$tag = function($name, $info) use(&$tagID)
-		{
-			return array
-			(
-				'id' => $tagID++,
-				'name' => $name,
-				'info' => $info
-			);
-		};
-		
-		$results = array
-		(
-			$group('Staat van het wegdek', array(
-				$tag('Put', 'Een put, ophoping, verzakking of scheur in het wegdek verhoogt het risico op vallen'),
-				$tag('Afwatering', 'Bij regenweer is er een slechte afwatering met vorming van plassen op het fietspad'),
-				$tag('Gevaarlijke rand', 'Overgangen met niveauverschil (bv. boordstenen) zijn te hoog'),
-				$tag('Begroeiing', 'Bermbegroeiing woekert en versmalt het fietspad'),
-				$tag('Glas', 'Er ligt glas op het fietspad met gevaar voor lekrijden'),
-				$tag('Wegdek: andere', 'Te specifiëren in beschrijving')
-			)),
-			$group('Signalisatie', array( 
-				$tag('Wegmarkeringen', 'Wegmarkeringen die het fietspad aanduiden ontbreken of zijn slecht zichtbaar'),
-				$tag('Oversteekplaats', 'Wegmarkeringen die een fietsoversteekplaats aanduiden zijn slecht zichtbaar'),
-				$tag('Verkeersborden', 'Verkeersborden die het fietspad aanduiden ontbreken of zijn in slechte staat'),
-				$tag('Verkeerslicht', 'Een verkeerslicht is defect of niet correct afgesteld'),
-				$tag('Onduidelijk', 'De gebruikte signalisatie is niet reglementair of de voorrangssituatie is onduidelijk'),
-				$tag('Signalisatie: andere', 'Te specifiëren in beschrijving')
-			)),
-		);
-		
-		return $results;
 	}
 	
 	
 	function tagsAction()
 	{
-		$results = $this->tags();
+		$results = Tags::Get();
 		$this->outputJson($results);
 	}
 }
