@@ -19,7 +19,7 @@
 		),
 		'modules' => array
 		(
-			'namespace' => '\\',
+			'namespace' => '\Fietsknelpunten',
 			'default' => 'api'
 		),
 		'fietsknelpunten' => array

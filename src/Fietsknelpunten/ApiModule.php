@@ -1,9 +1,11 @@
 <?php
 
+namespace Fietsknelpunten;
+
 use Base\Config;
 
 
-class ApiModule extends Base\ApiModule
+class ApiModule extends \Base\ApiModule
 {
 	private static $parameters = array
 	(
@@ -29,7 +31,7 @@ class ApiModule extends Base\ApiModule
 	
 	protected function checkPermissions($inAction)
 	{
-		$appID = Base\GetHeader('X-FIETSKNELPUNTEN-APPID');
+		$appID = \Base\GetHeader('X-FIETSKNELPUNTEN-APPID');
 		if ($appID === NULL)
 		{
 			return false;
