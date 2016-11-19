@@ -1,4 +1,4 @@
-[submodule "site/system"]
+[submodule "src/Base"]
 	path = src/Base
 	url = git@github.com:lieven/fietsknelpunten-base.git
 	branch = master
