@@ -2,27 +2,26 @@
 
 return <<<"SQL_END"
 
-CREATE TABLE IF NOT EXISTS `$tagGroupsTable`
+CREATE TABLE IF NOT EXISTS `TagGroups`
 (
-	`$tagGroupsColumnID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`$tagGroupsColumnName` VARCHAR(255) NOT NULL DEFAULT '',
-	PRIMARY KEY (`$tagGroupsColumnID`),
-	UNIQUE KEY `$tagGroupsColumnName` (`$tagGroupsColumnName`)
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL DEFAULT '',
+	PRIMARY KEY (`id`),
+	UNIQUE KEY (`name`)
 )
-DEFAULT CHARSET=utf8;
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE IF NOT EXISTS `$tagsTable`
+CREATE TABLE IF NOT EXISTS `Tags`
 (
-	`$tagsColumnID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-	`$tagsColumnName` VARCHAR(255) NOT NULL DEFAULT '',
-	`$tagsColumnInfo` TEXT,
-	`$tagsColumnGroup` INT(11) UNSIGNED NOT NULL,
-	PRIMARY KEY (`$tagsColumnID`),
-	UNIQUE KEY `$tagsColumnName` (`$tagsColumnName`),
-	KEY `$tagsColumnGroup` (`$tagsColumnGroup`),
-	CONSTRAINT `$tagsColumnGroup` FOREIGN KEY (`$tagsColumnGroup`) REFERENCES `$tagGroupsTable` (`$tagGroupsColumnID`) ON DELETE CASCADE ON UPDATE CASCADE
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL DEFAULT '',
+	`info` TEXT,
+	`group` INT UNSIGNED NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY (`name`),
+	FOREIGN KEY (`group`) REFERENCES `TagGroups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 )
-DEFAULT CHARSET=utf8;
+ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SQL_END;
