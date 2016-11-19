@@ -11,7 +11,7 @@ class Tags
 	{
 		$sql = include(__DIR__ .'/Tags.sql.php');
 		
-		return $db->executeQuery($sql);
+		return $db->executeUpdate($sql);
 	}
 	
 	public static function Get()

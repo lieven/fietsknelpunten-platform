@@ -24,6 +24,7 @@ class InstallerModule extends Module
 			$db =& Database::Get();
 		
 			Tags::CreateTables($db);
+			Issues::CreateTables($db);
 		
 			echo "OK\n";
 		}

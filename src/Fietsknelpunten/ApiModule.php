@@ -11,6 +11,7 @@ class ApiModule extends \Base\ApiModule
 	private static $parameters = array
 	(
 		'tags' => array(),
+		'issues' => array('minLat', 'maxLat', 'minLon', 'maxLon')
 	);
 	
 	function __construct()
@@ -53,6 +54,16 @@ class ApiModule extends \Base\ApiModule
 	function tagsAction()
 	{
 		$results = Tags::Get();
+		$this->outputJson($results);
+	}
+	
+	function issuesAction()
+	{
+		$minLat = filter_input(INPUT_GET, 'minLat', FILTER_VALIDATE_FLOAT);
+		$minLon = filter_input(INPUT_GET, 'minLon', FILTER_VALIDATE_FLOAT);
+		$maxLat = filter_input(INPUT_GET, 'maxLat', FILTER_VALIDATE_FLOAT);
+		$maxLon = filter_input(INPUT_GET, 'maxLon', FILTER_VALIDATE_FLOAT);
+		$results = Issues::GetInBoundingBox($minLat, $minLon, $maxLat, $maxLon);
 		$this->outputJson($results);
 	}
 }
