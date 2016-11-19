@@ -4,7 +4,6 @@ namespace Fietsknelpunten;
 
 use Base\Config;
 use Base\Database;
-use Base\GetHeader;
 
 
 class ApiModule extends \Base\ApiModule
@@ -33,7 +32,7 @@ class ApiModule extends \Base\ApiModule
 	
 	protected function checkPermissions($inAction)
 	{
-		$appID = GetHeader('X-FIETSKNELPUNTEN-APPID');
+		$appID = \Base\GetHeader('X-FIETSKNELPUNTEN-APPID');
 		if ($appID === NULL)
 		{
 			return false;

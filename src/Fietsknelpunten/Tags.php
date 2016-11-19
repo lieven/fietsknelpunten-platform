@@ -19,6 +19,9 @@ const TAG_GROUPS_COLUMN_NAME = 'name';
 
 class Tags
 {
+	private static $table = TAGS_TABLE;
+	private static $idColumn = TAGS_COLUMN_ID;
+	
 	public static function CreateTables(Database & $db)
 	{
 		$tagsTable = TAGS_TABLE;
@@ -39,17 +42,21 @@ class Tags
 	public static function Get()
 	{
 		$db =& Database::Get();
-		
-		self::CreateTables($db);
-		
+				
 		$results = array();
 		
-		$tagGroups = $db->executeQuery('SELECT * FROM TagGroups ORDER BY `id`;')->getResults();
+		$query = sprintf('SELECT * FROM `%s` ORDER BY `%s`;', TAG_GROUPS_TABLE, TAG_GROUPS_COLUMN_ID);
+		$tagGroups = $db->executeQuery($query)->getResults();
+		
 		if (is_array($tagGroups))
 		{
 			foreach ($tagGroups as $tagGroup)
 			{
-				$tags = $db->executeQuery('SELECT `id`, `name`, `info` FROM Tags WHERE `group`=:group ORDER BY `id`;', array('group' => $tagGroup['id']))->getResults();
+				$query = sprintf('SELECT `%s`, `%s`, `%s` FROM `%s` WHERE `%s`=:group ORDER BY `%s`;',
+					TAGS_COLUMN_ID, TAGS_COLUMN_NAME, TAGS_COLUMN_INFO,
+					TAGS_TABLE, TAGS_COLUMN_GROUP, TAGS_COLUMN_ID);
+				
+				$tags = $db->executeQuery($query, array('group' => $tagGroup[TAG_GROUPS_COLUMN_ID]))->getResults();
 				if (!is_array($tags))
 				{
 					$tags = array();
