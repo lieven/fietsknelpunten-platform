@@ -21,7 +21,7 @@ class InstallerModule extends Module
 		
 		try
 		{
-			$db =& Database::Get();
+			$db =& Database::Get('install');
 		
 			Tags::CreateTables($db);
 			Issues::CreateTables($db);

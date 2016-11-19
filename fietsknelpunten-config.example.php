@@ -6,12 +6,22 @@ Base\Config::Register
 (
 	array
 	(
-		// you should set up at least one database, called 'main'
 		'databases' => array
 		(
+			// The 'main' configuration should have select, insert, update and delete permissions
 			'main' => array
 			(
-				'host' => 'localhost',
+				'host' => 'host',
+				'user' => 'username',
+				'pass' => 'password',
+				'database' => 'database'
+			),
+			// The user for the 'install' config should have permissions to create and alter tables,
+			// so leave it disabled once everything is set up
+			'install' => array
+			(
+				'enabled' => false,
+				'host' => 'host',
 				'user' => 'username',
 				'pass' => 'password',
 				'database' => 'database'
@@ -28,6 +38,7 @@ Base\Config::Register
 			(
 				'appID' => 'appKey'
 			),
+			// Only issues reported within this bounding box are accepted.
 			'bbox' => array
 			(
 				'minLat' => 49.45,
