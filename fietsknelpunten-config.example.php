@@ -39,13 +39,7 @@ Base\Config::Register
 				'appID' => 'appKey'
 			),
 			// Only issues reported within this bounding box are accepted.
-			'bbox' => array
-			(
-				'minLat' => 49.45,
-				'maxLat' => 51.57,
-				'minLon' => 2.45,
-				'maxLon' => 6.45
-			)
+			'bbox' => new Fietsknelpunten\BoundingBox(49.45, 2.45, 51.57, 6.45)
 		)
 	)
 );

@@ -14,30 +14,30 @@ class Issues
 		return $db->executeUpdate($sql);
 	}
 	
-	public static function GetInBoundingBox($minLat, $minLon, $maxLat, $maxLon, $limit = NULL)
+	public static function InBoundingBox($inBoundingBox, $inLimit = NULL)
 	{
 		$db =& Database::Get();
 		
-		$limit = intval($limit);
+		$limit = intval($inLimit);
 		if ($limit <= 0)
 		{
 			$limit = 1000;
 		}
 		
-		$query = 'SELECT * FROM `Issues` WHERE `latitude` >= :minLat AND `latitude` <= :maxLat AND `longitude` >= :minLon AND `longitude` <= :maxLon ORDER BY `date_created` DESC LIMIT ' . $limit;
-		$args = array('minLat' => $minLat, 'minLon' => $minLon, 'maxLat' => $maxLat, 'maxLon' => $maxLon);
+		$args = array();
+		$query = sprintf('SELECT * FROM `Issues` WHERE %s ORDER BY `date_created` DESC LIMIT ' . $limit, $inBoundingBox->sqlClause($args));
 		
 		$resultSet = $db->executeQuery($query, $args);
 		
 		return $resultSet->getResults(NULL, $limit);
 	}
 	
-	public static function Add($inTitle, $inLatitude, $inLongitude, $inDescription = NULL)
+	public static function Add(Coordinate $inCoordinate, $inTitle, $inDescription = NULL)
 	{
 		$db =& Database::Get();
 		
 		$statement = 'INSERT INTO `Issues` (`title`, `latitude`, `longitude`, `description`) VALUES(:title, :latitude, :longitude, :description);';
-		$args = array('title' => $inTitle, 'latitude' => floatval($inLatitude), 'longitude' => floatval($inLongitude), 'description' => $inDescription); 
+		$args = array('title' => $inTitle, 'latitude' => $inCoordinate->getLatitude(), 'longitude' => $inCoordinate->getLongitude(), 'description' => $inDescription); 
 		
 		$affectedRows = $db->executeUpdate($statement, $args);
 		return ($affectedRows === 1);

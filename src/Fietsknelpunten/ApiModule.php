@@ -56,7 +56,7 @@ class ApiModule extends \Base\ApiModule
 	
 	function bboxAction()
 	{
-		$this->outputJson(Config::Get('fietsknelpunten', 'bbox'));
+		$this->outputJson(BoundingBox::ConfigBounds()->toArray());
 	}
 	
 	function tagsAction()
@@ -67,38 +67,61 @@ class ApiModule extends \Base\ApiModule
 	
 	function issuesAction()
 	{
-		$minLat = filter_input(INPUT_GET, 'minLat', FILTER_VALIDATE_FLOAT);
-		$minLon = filter_input(INPUT_GET, 'minLon', FILTER_VALIDATE_FLOAT);
-		$maxLat = filter_input(INPUT_GET, 'maxLat', FILTER_VALIDATE_FLOAT);
-		$maxLon = filter_input(INPUT_GET, 'maxLon', FILTER_VALIDATE_FLOAT);
-		$results = Issues::GetInBoundingBox($minLat, $minLon, $maxLat, $maxLon);
+		$boundingBox = new BoundingBox
+		(
+			filter_input(INPUT_GET, 'minLat', FILTER_VALIDATE_FLOAT),
+			filter_input(INPUT_GET, 'minLon', FILTER_VALIDATE_FLOAT),
+			filter_input(INPUT_GET, 'maxLat', FILTER_VALIDATE_FLOAT),
+			filter_input(INPUT_GET, 'maxLon', FILTER_VALIDATE_FLOAT)
+		);
+		
+		$maxBounds = BoundingBox::ConfigBounds();
+		if ($boundingBox->isEmpty() || !$maxBounds->containsBoundingBox($boundingBox))
+		{
+			throw new ApiException(ApiException::INVALID_PARAMETER, 'Invalid bounding box');
+		}
+		
+		$results = Issues::InBoundingBox($minLat, $minLon, $maxLat, $maxLon);
 		$this->outputJson($results);
 	}
 	
 	function addIssueAction()
 	{
-		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING);
 		$latitude = filter_input(INPUT_POST, 'latitude', FILTER_VALIDATE_FLOAT);
 		$longitude = filter_input(INPUT_POST, 'longitude', FILTER_VALIDATE_FLOAT);
-		$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
+		$title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+		$description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
 		
-		if (!$title || !$latitude || !$longitude)
+		if (!is_string($title))
 		{
-			throw new ApiException(ApiException::PARAMETER_REQUIRED, 'title, latitude and longitude are required');
+			throw new ApiException(ApiException::PARAMETER_REQUIRED, 'title is required');
 		}
 		
-		$bbox = Config::Get('fietsknelpunten', 'bbox');
-		if ($latitude < $bbox['minLat'] || $latitude > $bbox['maxLat'] || $longitude < $bbox['minLon'] || $longitude > $bbox['maxLon'])
+		$title = trim($title);
+		if (strlen($title) == 0)
 		{
-			throw new ApiException(ApiException::INVALID_PARAMETER, 'coordinates are out of bounds');
+			throw new ApiException(ApiException::INVALID_PARAMETER, 'empty title');
 		}
 		
-		if (!$description)
+		if ($latitude === NULL || $longitude === NULL)
 		{
-			$description = NULL;
+			throw new ApiException(ApiException::PARAMETER_REQUIRED, 'latitude and longitude are required');
 		}
 		
-		$inserted = Issues::Add($title, $latitude, $longitude, $description);
+		if ($latitude === false || $longitude === false)
+		{
+			throw new ApiException(ApiException::INVALID_PARAMETER, 'valid coordinates are required');
+		}
+		
+		$coordinate = new Coordinate($latitude, $longitude);
+		
+		$maxBounds = BoundingBox::ConfigBounds();
+		if (!$maxBounds->containsCoordinate($coordinate))
+		{
+			throw new ApiException(ApiException::INVALID_PARAMETER, 'Coordinate out of bounds');
+		}
+		
+		$inserted = Issues::Add($coordinate, $title, $description);
 		
 		$this->outputJson(array('success' => boolval($inserted)));
 	}
