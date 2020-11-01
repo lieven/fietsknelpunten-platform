@@ -2,9 +2,32 @@ version: '3.7'
 
 services:
     php-httpd:
-        image: php:7.3-apache
+        build:
+            context: ./php-httpd
         ports:
             - 8080:80
         volumes:
             - "./src:/var/www/html"
             - "./config:/var/www/config"
+            
+    mariadb:
+        image: mariadb
+        volumes:
+            - mariadb-volume:/var/lib/mysql
+        environment:
+            TZ: "Europe/Brussels"
+            MYSQL_ROOT_PASSWORD: "fietsknelpunten"
+            MYSQL_USER: 'fietsknelpunten'
+            MYSQL_PASSWORD: 'fietsknelpunten'
+            MYSQL_DATABASE: 'fietsknelpunten'
+            
+    phpmyadmin:
+        image: phpmyadmin
+        links:
+            - 'mariadb:db'
+        ports:
+            - 8081:80
+            
+volumes:
+    mariadb-volume:
+
