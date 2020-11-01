@@ -27,9 +27,9 @@ class Tags
 		{
 			foreach ($tagGroups as $tagGroup)
 			{
-				$query = 'SELECT `id`, `name`, `info` FROM `Tags` WHERE `group`=:group ORDER BY `id`;';
+				$query = 'SELECT `id`, `name`, `info` FROM `Tags` WHERE `tag_group_id`=:tag_group_id ORDER BY `id`;';
 				
-				$tags = $db->executeQuery($query, array('group' => $tagGroup['id']))->getResults();
+				$tags = $db->executeQuery($query, array('tag_group_id' => $tagGroup['id']))->getResults();
 				if (!is_array($tags))
 				{
 					$tags = array();

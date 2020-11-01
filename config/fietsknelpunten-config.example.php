@@ -2,6 +2,7 @@
 
 // Copy this file to a readable but safe path, edit it and update the CONFIG_FILE define in index.php
 
+
 Base\Config::Register
 (
 	array
@@ -39,7 +40,7 @@ Base\Config::Register
 				'appID' => 'appKey'
 			),
 			// Only issues reported within this bounding box are accepted.
-			'bbox' => new Fietsknelpunten\BoundingBox(49.45, 2.45, 51.57, 6.45)
+			'bbox' => new Fietsknelpunten\BoundingBox(49.45, 2.45, 51.57, 6.45),
 		)
 	)
 );

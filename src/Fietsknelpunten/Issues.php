@@ -32,12 +32,20 @@ class Issues
 		return $resultSet->getResults(NULL, $limit);
 	}
 	
-	public static function Add(Coordinate $inCoordinate, $inTitle, $inDescription = NULL)
+	public static function Add(Coordinate $inCoordinate, $inTitle, $inDescription = NULL, $inCountryCode = NULL, $inPostalCode = NULL)
 	{
 		$db =& Database::Get();
 		
-		$statement = 'INSERT INTO `Issues` (`title`, `latitude`, `longitude`, `description`) VALUES(:title, :latitude, :longitude, :description);';
-		$args = array('title' => $inTitle, 'latitude' => $inCoordinate->getLatitude(), 'longitude' => $inCoordinate->getLongitude(), 'description' => $inDescription); 
+		$statement = 'INSERT INTO `Issues` (`title`, `latitude`, `longitude`, `description`, `country_code`, `postal_code`) VALUES(:title, :latitude, :longitude, :description, :country_code, :postal_code);';
+		$args = array
+		(
+			'title' => $inTitle,
+			'latitude' => $inCoordinate->getLatitude(),
+			'longitude' => $inCoordinate->getLongitude(),
+			'description' => $inDescription,
+			'country_code' => $inCountryCode,
+			'postal_code' => $inPostalCode
+		);
 		
 		$affectedRows = $db->executeUpdate($statement, $args);
 		return ($affectedRows === 1);
